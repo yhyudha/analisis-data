@@ -9,7 +9,7 @@ from babel.numbers import format_currency
 
 # Load datasets
 customers_dataset_df = pd.read_csv("customers_dataset.csv")
-geolocation_dataset_df = pd.read_csv("geolocation_dataset.csv")
+#geolocation_dataset_df = pd.read_csv("geolocation_dataset.csv")
 order_items_dataset_df = pd.read_csv("order_items_dataset.csv")
 order_payments_dataset_df = pd.read_csv("order_payments_dataset.csv")
 order_reviews_dataset_df = pd.read_csv("order_reviews_dataset.csv")
