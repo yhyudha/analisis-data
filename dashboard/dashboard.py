@@ -5,18 +5,44 @@ import seaborn as sns
 import streamlit as st
 import plotly.express as px
 from babel.numbers import format_currency
+import os
 
+# Path dinamis ke folder Data
+BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Data'))
 
-# Load datasets
-customers_dataset_df = pd.read_csv("customers_dataset.csv")
-#geolocation_dataset_df = pd.read_csv("geolocation_dataset.csv")
-order_items_dataset_df = pd.read_csv("order_items_dataset.csv")
-order_payments_dataset_df = pd.read_csv("order_payments_dataset.csv")
-order_reviews_dataset_df = pd.read_csv("order_reviews_dataset.csv")
-orders_dataset_df = pd.read_csv("orders_dataset.csv")
-product_category_name_translation_df = pd.read_csv("product_category_name_translation.csv")
-products_dataset_df = pd.read_csv("products_dataset.csv")
-sellers_dataset_df = pd.read_csv("sellers_dataset.csv")
+customers_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "customers_dataset.csv"))
+geolocation_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "geolocation_dataset.csv"))
+order_items_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "order_items_dataset.csv"))
+order_payments_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "order_payments_dataset.csv"))
+order_reviews_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "order_reviews_dataset.csv"))
+orders_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "orders_dataset.csv"))
+product_category_name_translation_df = pd.read_csv(os.path.join(BASE_PATH, "product_category_name_translation.csv"))
+products_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "products_dataset.csv"))
+sellers_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "sellers_dataset.csv"))
+
+# # orders_dataset
+orders_dataset_df.head()
+pd.set_option('display.max_columns', None)
+pd.set_option('display.width', None)
+pd.set_option('display.max_colwidth', None)
+print(orders_dataset_df.head())
+
+orders_dataset_df.info()
+orders_dataset_df.isna().sum()
+print(orders_dataset_df.isna().sum())
+print("Jumlah duplikasi: ", orders_dataset_df.duplicated().sum())
+
+# Cleaning dataset
+datetime_columns = ["order_purchase_timestamp", "order_approved_at", "order_delivered_carrier_date", "order_delivered_customer_date", "order_estimated_delivery_date"]
+for column in datetime_columns:
+    orders_dataset_df[column] = pd.to_datetime(orders_dataset_df[column])
+
+orders_dataset_df.info()
+
+orders_dataset_df[orders_dataset_df.order_approved_at.isna()]
+print(orders_dataset_df[orders_dataset_df.order_approved_at.isna()])
+orders_dataset_df.groupby(by="order_status")
+print(orders_dataset_df)
 
 # Gabungkan dataset
 # # dataset-Product performance
@@ -100,6 +126,9 @@ sns.barplot(
 )
 ax[1].set_ylabel(None)
 ax[1].set_xlabel("Number of Orders", fontsize=12)
+ax[1].invert_xaxis()
+ax[1].yaxis.set_label_position("right")
+ax[1].yaxis.tick_right()
 ax[1].set_title("Worst Performing Product", loc="center", fontsize=14)
 ax[1].tick_params(axis='y', labelsize=10)
 ax[1].tick_params(axis='x', labelsize=10)
@@ -195,5 +224,6 @@ ax[2].tick_params(axis='y', labelsize=30)
 ax[2].tick_params(axis='x', labelrotation=85)
 
 st.pyplot(fig)
+print("Current working directory:", os.getcwd())
 
 st.caption('Copyright © LASKAR AI 2025')
