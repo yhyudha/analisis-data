@@ -14,16 +14,9 @@ except NameError:
 
 st.write("📂 Current working dir:", os.getcwd())
 st.write("📂 BASE_PATH:", BASE_PATH)
-st.write("📂 File exists?",
-         os.path.exists(os.path.join(BASE_PATH, "customers_dataset.csv"))
+st.write("📂 File exists?",os.path.exists(os.path.join(BASE_PATH, "customers_dataset.csv"))
 
-# Path dinamis ke folder Data
-def load_csv(filename):
-    file_path = os.path.join(BASE_PATH, filename)
-    if not os.path.exists(file_path):
-        st.error(f"❌ File `{filename}` tidak ditemukan di folder 'data/'. Pastikan file sudah diupload.")
-        st.stop()  # Hentikan Streamlit agar tidak lanjut ke bawah
-    return pd.read_csv(file_path)
+
 
 #BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
 
