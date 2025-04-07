@@ -6,6 +6,8 @@ Create Project : File - New Project
   Choose new environment : virtualenv
   Choose Location : directory
   Create Folder  : input folder name
+![Uploading image.png…]()
+
 
 ```
 
