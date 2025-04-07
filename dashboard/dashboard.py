@@ -7,31 +7,19 @@ import streamlit as st
 from babel.numbers import format_currency
 import os
 
-# Set BASE_PATH terlebih dahulu
-try:
-    BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
-except NameError:
-    BASE_PATH = os.path.abspath(os.path.join(os.getcwd(), 'data'))
 
+# Path dinamis ke folder Data
+BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Data'))
 
-def load_csv(filename):
-    path = os.path.join(BASE_PATH, filename)
-    if not os.path.exists(path):
-        st.error(f"❌ File `{filename}` tidak ditemukan di folder `/data`.")
-        st.stop()  # Hentikan app agar gak lanjut error
-    return pd.read_csv(path)
-
-
-customers_dataset_df = load_csv("customers_dataset.csv")
-#geolocation_dataset_df = load_csv("geolocation_dataset.csv")
-order_items_dataset_df = load_csv("order_items_dataset.csv")
-order_payments_dataset_df = load_csv("order_payments_dataset.csv")
-order_reviews_dataset_df = load_csv("order_reviews_dataset.csv")
-orders_dataset_df = load_csv("orders_dataset.csv")
-product_category_name_translation_df = load_csv("product_category_name_translation.csv")
-products_dataset_df = load_csv("products_dataset.csv")
-sellers_dataset_df = load_csv("sellers_dataset.csv")
-
+customers_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "customers_dataset.csv"))
+#geolocation_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "geolocation_dataset.csv"))
+order_items_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "order_items_dataset.csv"))
+order_payments_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "order_payments_dataset.csv"))
+order_reviews_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "order_reviews_dataset.csv"))
+orders_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "orders_dataset.csv"))
+product_category_name_translation_df = pd.read_csv(os.path.join(BASE_PATH, "product_category_name_translation.csv"))
+products_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "products_dataset.csv"))
+sellers_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "sellers_dataset.csv"))
 
 
 # # orders_dataset
