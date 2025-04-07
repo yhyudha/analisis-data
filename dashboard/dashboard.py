@@ -1,4 +1,4 @@
-import numpy as np
+#import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -8,7 +8,7 @@ from babel.numbers import format_currency
 import os
 
 # Path dinamis ke folder Data
-BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
+BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Data'))
 
 customers_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "customers_dataset.csv"))
 geolocation_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "geolocation_dataset.csv"))
@@ -39,12 +39,34 @@ for column in datetime_columns:
 
 orders_dataset_df.info()
 
-orders_dataset_df[orders_dataset_df.order_approved_at.isna()]
+#orders_dataset_df[orders_dataset_df.order_approved_at.isna()]
 print(orders_dataset_df[orders_dataset_df.order_approved_at.isna()])
-orders_dataset_df.groupby(by="order_status")
-print(orders_dataset_df)
+#orders_dataset_df.groupby(by="order_status")
+#print(orders_dataset_df)
+
+
+min_date = orders_dataset_df["order_purchase_timestamp"].min()
+max_date = orders_dataset_df["order_purchase_timestamp"].max()
+with st.sidebar:
+    # Menambahkan logo perusahaan
+    st.image("https://github.com/yhyudha/analisis-data/blob/main/data/bitcoin-4130299_640.png?raw=true")
+
+    # Mengambil start_date & end_date dari date_input
+    start_date, end_date = st.date_input(
+        label='Pilih Tanggal', min_value=min_date,
+        max_value=max_date,
+        value=[min_date, max_date]
+    )
+orders_dataset_df = orders_dataset_df[(orders_dataset_df["order_purchase_timestamp"] >= str(start_date)) &
+                (orders_dataset_df["order_purchase_timestamp"] <= str(end_date))]
+
+
 
 # Gabungkan dataset
+
+# # dataset-Order Harian
+order_payments_df = pd.merge(orders_dataset_df, order_payments_dataset_df, on="order_id", how="inner")
+
 # # dataset-Product performance
 order_product_df = pd.merge(order_items_dataset_df, orders_dataset_df, on="order_id", how="inner")
 order_product_df = pd.merge(order_product_df, products_dataset_df, on="product_id", how="inner")
@@ -59,6 +81,21 @@ customer_order_df = pd.merge(customers_dataset_df, orders_dataset_df, on="custom
 customer_order_df = pd.merge(customer_order_df, order_items_dataset_df, on="order_id", how="left")
 
 # Helper function yang dibutuhkan untuk menyiapkan berbagai dataframe
+
+# # dataset-Product performance
+def create_daily_orders_df(df):
+    daily_orders_df = df.resample(rule='D', on='order_purchase_timestamp').agg({
+        "order_id": "nunique",
+        "total_price": "sum"
+    }).reset_index()
+
+    daily_orders_df.rename(columns={
+        "order_id": "order_count",
+        "total_price": "revenue"
+    }, inplace=True)
+
+    return daily_orders_df
+
 def create_sum_order_items_df(df):
     sum_order_items_df = (
         df.groupby("product_category_name_english")["order_id"]
@@ -92,6 +129,38 @@ def create_rfm_df(df):
 sum_order_items_df = create_sum_order_items_df(order_product_df)
 bystate_df = create_bystate_df(order_customer_df)
 rfm_df = create_rfm_df(customer_order_df)
+
+# Bikin kolom total_price dari payment_value
+order_payments_df["total_price"] = order_payments_df["payment_value"]
+
+# Panggil fungsi untuk dapatkan daily_orders_df
+daily_orders_df = create_daily_orders_df(order_payments_df)
+
+# Display Daily
+st.subheader('Daily Orders')
+col1, col2 = st.columns(2)
+
+with col1:
+    total_orders = daily_orders_df["order_count"].sum()
+    st.metric("Total orders", value=total_orders)
+
+with col2:
+    total_revenue = format_currency(daily_orders_df["revenue"].sum(), "AUD", locale='es_CO')
+    st.metric("Total Revenue", value=total_revenue)
+
+
+fig, ax = plt.subplots(figsize=(16, 8))
+ax.plot(
+    daily_orders_df["order_purchase_timestamp"],  # X-axis
+    daily_orders_df["order_count"],              # Y-axis
+    marker='o',
+    linewidth=2
+)
+ax.set_title("Daily Orders Over Time")
+ax.set_xlabel("Tanggal")
+ax.set_ylabel("Jumlah Order")
+st.pyplot(fig)
+
 
 # Display Performance
 st.subheader("Product Performance Overview")
@@ -172,7 +241,7 @@ with col2:
     st.metric("Average Frequency", value=avg_frequency)
 
 with col3:
-    avg_monetary = format_currency(rfm_df.monetary.mean(), "AUD", locale='es_CO')
+    avg_monetary = format_currency(rfm_df.monetary.mean(), "USD", locale='id_ID')
     st.metric("Average Monetary", value=avg_monetary)
 
 # # Visualisasi Top Customers
