@@ -12,7 +12,6 @@ import os
 BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
 
 customers_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "customers_dataset.csv"))
-#geolocation_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "geolocation_dataset.csv"))
 order_items_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "order_items_dataset.csv"))
 order_payments_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "order_payments_dataset.csv"))
 order_reviews_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "order_reviews_dataset.csv"))
