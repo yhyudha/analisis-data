@@ -13,5 +13,5 @@ Create Project : File - New Project
 
 ## Run steamlit app
 ```
-streamlit run dashboard.py
+streamlit run https://dashboardpy-yhyudha.streamlit.app
 ```
