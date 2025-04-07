@@ -33,24 +33,6 @@ products_dataset_df = load_csv("products_dataset.csv")
 sellers_dataset_df = load_csv("sellers_dataset.csv")
 
 
-required_files = [
-    "customers_dataset.csv",
-#    "geolocation_dataset.csv",
-    "order_items_dataset.csv",
-    "order_payments_dataset.csv",
-    "order_reviews_dataset.csv",
-    "orders_dataset.csv",
-    "product_category_name_translation.csv",
-    "products_dataset.csv",
-    "sellers_dataset.csv"
-]
-
-missing_files = [f for f in required_files if not os.path.exists(os.path.join(BASE_PATH, f))]
-
-if missing_files:
-    st.error(f"❌ File berikut belum tersedia di folder 'data/':\n\n{', '.join(missing_files)}")
-    st.stop()
-
 
 # # orders_dataset
 orders_dataset_df.head()
