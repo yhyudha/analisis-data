@@ -23,7 +23,7 @@ def load_csv(filename):
 
 
 customers_dataset_df = load_csv("customers_dataset.csv")
-geolocation_dataset_df = load_csv("geolocation_dataset.csv")
+#geolocation_dataset_df = load_csv("geolocation_dataset.csv")
 order_items_dataset_df = load_csv("order_items_dataset.csv")
 order_payments_dataset_df = load_csv("order_payments_dataset.csv")
 order_reviews_dataset_df = load_csv("order_reviews_dataset.csv")
@@ -35,7 +35,7 @@ sellers_dataset_df = load_csv("sellers_dataset.csv")
 
 required_files = [
     "customers_dataset.csv",
-    "geolocation_dataset.csv",
+#    "geolocation_dataset.csv",
     "order_items_dataset.csv",
     "order_payments_dataset.csv",
     "order_reviews_dataset.csv",
