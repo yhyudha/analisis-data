@@ -6,10 +6,10 @@ Create Project : File - New Project
   Choose new environment : virtualenv
   Choose Location : directory
   Create Folder  : input folder name
-![Uploading image.png…]()
-
-
 ```
+![2025-04-07_14-09-17](https://github.com/user-attachments/assets/f6b567a0-9385-460b-9b72-091d668df325)
+
+
 
 ## Run steamlit app
 ```
