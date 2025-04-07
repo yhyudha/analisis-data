@@ -7,28 +7,43 @@ import streamlit as st
 from babel.numbers import format_currency
 import os
 
-try:
-    BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
-except NameError:
-    BASE_PATH = os.path.abspath(os.path.join(os.getcwd(), 'data'))
-
-st.write("📂 Current working dir:", os.getcwd())
-st.write("📂 BASE_PATH:", BASE_PATH)
-st.write("📂 File exists?",os.path.exists(os.path.join(BASE_PATH, "customers_dataset.csv")))
+def load_csv(filename):
+    path = os.path.join(BASE_PATH, filename)
+    if not os.path.exists(path):
+        st.error(f"❌ File `{filename}` tidak ditemukan di folder `/data`.")
+        st.stop()  # Hentikan app agar gak lanjut error
+    return pd.read_csv(path)
 
 
+customers_dataset_df = load_csv("customers_dataset.csv")
+geolocation_dataset_df = load_csv("geolocation_dataset.csv")
+order_items_dataset_df = load_csv("order_items_dataset.csv")
+order_payments_dataset_df = load_csv("order_payments_dataset.csv")
+order_reviews_dataset_df = load_csv("order_reviews_dataset.csv")
+orders_dataset_df = load_csv("orders_dataset.csv")
+product_category_name_translation_df = load_csv("product_category_name_translation.csv")
+products_dataset_df = load_csv("products_dataset.csv")
+sellers_dataset_df = load_csv("sellers_dataset.csv")
 
-#BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
 
-customers_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "customers_dataset.csv"))
-geolocation_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "geolocation_dataset.csv"))
-order_items_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "order_items_dataset.csv"))
-order_payments_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "order_payments_dataset.csv"))
-order_reviews_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "order_reviews_dataset.csv"))
-orders_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "orders_dataset.csv"))
-product_category_name_translation_df = pd.read_csv(os.path.join(BASE_PATH, "product_category_name_translation.csv"))
-products_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "products_dataset.csv"))
-sellers_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "sellers_dataset.csv"))
+required_files = [
+    "customers_dataset.csv",
+    "geolocation_dataset.csv",
+    "order_items_dataset.csv",
+    "order_payments_dataset.csv",
+    "order_reviews_dataset.csv",
+    "orders_dataset.csv",
+    "product_category_name_translation.csv",
+    "products_dataset.csv",
+    "sellers_dataset.csv"
+]
+
+missing_files = [f for f in required_files if not os.path.exists(os.path.join(BASE_PATH, f))]
+
+if missing_files:
+    st.error(f"❌ File berikut belum tersedia di folder 'data/':\n\n{', '.join(missing_files)}")
+    st.stop()
+
 
 # # orders_dataset
 orders_dataset_df.head()
