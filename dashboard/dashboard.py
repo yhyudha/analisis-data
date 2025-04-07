@@ -7,6 +7,13 @@ import streamlit as st
 from babel.numbers import format_currency
 import os
 
+# Set BASE_PATH terlebih dahulu
+try:
+    BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
+except NameError:
+    BASE_PATH = os.path.abspath(os.path.join(os.getcwd(), 'data'))
+
+
 def load_csv(filename):
     path = os.path.join(BASE_PATH, filename)
     if not os.path.exists(path):
