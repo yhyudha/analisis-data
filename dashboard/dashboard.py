@@ -9,7 +9,7 @@ import os
 
 
 # Path dinamis ke folder Data
-BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'Data'))
+BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
 
 customers_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "customers_dataset.csv"))
 #geolocation_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "geolocation_dataset.csv"))
