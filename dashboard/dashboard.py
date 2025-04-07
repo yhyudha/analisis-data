@@ -7,9 +7,15 @@ import streamlit as st
 from babel.numbers import format_currency
 import os
 
+try:
+    BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
+except NameError:
+    BASE_PATH = os.path.abspath(os.path.join(os.getcwd(), 'data'))
+
 st.write("📂 Current working dir:", os.getcwd())
 st.write("📂 BASE_PATH:", BASE_PATH)
-st.write("📂 File exists?", os.path.exists(os.path.join(BASE_PATH, "customers_dataset.csv")))
+st.write("📂 File exists?",
+         os.path.exists(os.path.join(BASE_PATH, "customers_dataset.csv"))
 
 # Path dinamis ke folder Data
 def load_csv(filename):
