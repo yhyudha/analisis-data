@@ -8,7 +8,14 @@ from babel.numbers import format_currency
 import os
 
 # Path dinamis ke folder Data
-BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
+def load_csv(filename):
+    file_path = os.path.join(BASE_PATH, filename)
+    if not os.path.exists(file_path):
+        st.error(f"❌ File `{filename}` tidak ditemukan di folder 'data/'. Pastikan file sudah diupload.")
+        st.stop()  # Hentikan Streamlit agar tidak lanjut ke bawah
+    return pd.read_csv(file_path)
+
+#BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data'))
 
 customers_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "customers_dataset.csv"))
 geolocation_dataset_df = pd.read_csv(os.path.join(BASE_PATH, "geolocation_dataset.csv"))
