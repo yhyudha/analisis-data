@@ -14,7 +14,7 @@ except NameError:
 
 st.write("📂 Current working dir:", os.getcwd())
 st.write("📂 BASE_PATH:", BASE_PATH)
-st.write("📂 File exists?",os.path.exists(os.path.join(BASE_PATH, "customers_dataset.csv"))
+st.write("📂 File exists?",os.path.exists(os.path.join(BASE_PATH, "customers_dataset.csv")))
 
 
 
